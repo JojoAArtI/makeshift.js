@@ -58,7 +58,7 @@ export function heatmap(
     const values = [...dateMap.values()];
     const maxVal = opts.goal || Math.max(...values, 1);
 
-    const getColor = colorScale([0, maxVal], opts.colorRange);
+    const getColor = colorScale([0, maxVal], [...opts.colorRange]);
 
     // Calculate grid dimensions
     const firstSunday = startOfWeek(startDate);

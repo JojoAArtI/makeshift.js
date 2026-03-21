@@ -60,19 +60,19 @@ export function makeDraggable(
     callbacks.onEnd?.(e.clientX, e.clientY, e);
   }
 
-  el.addEventListener('pointerdown', onPointerDown);
-  el.addEventListener('pointermove', onPointerMove);
-  el.addEventListener('pointerup', onPointerUp);
-  el.addEventListener('pointercancel', onPointerUp);
+  el.addEventListener('pointerdown', onPointerDown as EventListener);
+  el.addEventListener('pointermove', onPointerMove as EventListener);
+  el.addEventListener('pointerup', onPointerUp as EventListener);
+  el.addEventListener('pointercancel', onPointerUp as EventListener);
   el.style.cursor = 'grab';
   el.style.touchAction = 'none';
 
   // Return cleanup function
   return () => {
-    el.removeEventListener('pointerdown', onPointerDown);
-    el.removeEventListener('pointermove', onPointerMove);
-    el.removeEventListener('pointerup', onPointerUp);
-    el.removeEventListener('pointercancel', onPointerUp);
+    el.removeEventListener('pointerdown', onPointerDown as EventListener);
+    el.removeEventListener('pointermove', onPointerMove as EventListener);
+    el.removeEventListener('pointerup', onPointerUp as EventListener);
+    el.removeEventListener('pointercancel', onPointerUp as EventListener);
   };
 }
 
