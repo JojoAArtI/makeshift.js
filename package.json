@@ -1,0 +1,51 @@
+{
+  "name": "makeshift.js",
+  "version": "0.1.0",
+  "description": "A novel JavaScript visualization library with 7 unique, interactive chart types — decision trees, Gantt charts, waterfalls, org charts, heatmaps, before/after sliders, and word diff charts.",
+  "author": "JojoAArtI",
+  "license": "MIT",
+  "main": "dist/makeshift.cjs.js",
+  "module": "dist/makeshift.esm.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/makeshift.esm.js",
+      "require": "./dist/makeshift.cjs.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "keywords": [
+    "chart",
+    "visualization",
+    "decision-tree",
+    "gantt",
+    "waterfall",
+    "org-chart",
+    "heatmap",
+    "before-after",
+    "word-diff",
+    "svg",
+    "interactive",
+    "data-viz"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JojoAArtI/makeshift.js"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "rollup": "^4.12.0",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@rollup/plugin-terser": "^0.4.4",
+    "tslib": "^2.6.0"
+  }
+}
