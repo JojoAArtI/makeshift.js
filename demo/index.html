@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>makeshift.js — 7 Novel Charts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0a0a1a;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+    .hero {
+      text-align: center;
+      padding: 80px 20px 60px;
+      background: linear-gradient(135deg, #0a0a1a 0%, #1a1040 50%, #0a0a1a 100%);
+      border-bottom: 1px solid rgba(99,102,241,0.15);
+    }
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #818cf8, #c084fc, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 18px;
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .hero .badge {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 6px 16px;
+      background: rgba(99,102,241,0.15);
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 20px;
+      font-size: 13px;
+      color: #a5b4fc;
+    }
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+    .section h2 {
+      font-size: 30px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #e2e8f0;
+    }
+    .section h2 span {
+      background: linear-gradient(135deg, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .section .desc {
+      color: #94a3b8;
+      margin-bottom: 24px;
+      font-size: 15px;
+    }
+    .chart-container {
+      width: 100%;
+      min-height: 450px;
+      background: #0f0f23;
+      border-radius: 16px;
+      border: 1px solid rgba(99,102,241,0.15);
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent);
+      margin: 20px 0;
+    }
+    code {
+      background: rgba(99,102,241,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #a5b4fc;
+    }
+    .install-bar {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(99,102,241,0.05);
+      border-top: 1px solid rgba(99,102,241,0.15);
+    }
+    .install-bar code {
+      font-size: 16px;
+      padding: 10px 24px;
+      border-radius: 10px;
+      background: rgba(99,102,241,0.12);
+      border: 1px solid rgba(99,102,241,0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1>makeshift.js</h1>
+    <p>7 novel, interactive chart types that don't exist anywhere else. Zero dependencies. Pure SVG. Works everywhere.</p>
+    <div class="badge">v0.1.0 · MIT License · 0 dependencies</div>
+  </div>
+
+  <!-- 1. Decision Tree -->
+  <div class="section">
+    <h2>🌳 <span>Decision Tree Builder</span></h2>
+    <p class="desc">Build actual decision trees from data — not drawings. Automatic CART splitting, hover to see records, collapse subtrees.</p>
+    <div class="chart-container" id="chart-tree" style="min-height:400px;"></div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- 2. Gantt Chart -->
+  <div class="section">
+    <h2>📊 <span>Gantt Chart</span></h2>
+    <p class="desc">Dependency arrows that route around tasks. Critical path highlighting. Resource overload warnings. Milestone diamonds. Swimlanes.</p>
+    <div class="chart-container" id="chart-gantt" style="min-height:500px;"></div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- 3. Cash Flow Waterfall -->
+  <div class="section">
+    <h2>💰 <span>Cash Flow Waterfall</span></h2>
+    <p class="desc">See where your money actually went. Click any block to see individual transactions. Running total line included.</p>
+    <div class="chart-container" id="chart-waterfall" style="min-height:420px;"></div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- 4. Org Chart -->
+  <div class="section">
+    <h2>🏢 <span>Org Chart / Influence Map</span></h2>
+    <p class="desc">Toggle between formal hierarchy and actual influence network. Node size = communication volume. Edge thickness = collaboration frequency.</p>
+    <div class="chart-container" id="chart-org" style="min-height:500px;"></div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- 5. Heatmap -->
+  <div class="section">
+    <h2>🔥 <span>Habit Heatmap</span></h2>
+    <p class="desc">The GitHub contribution graph, but for anything. Streak counter. Goal scaling. Beautiful color gradients.</p>
+    <div class="chart-container" id="chart-heatmap" style="min-height:220px;"></div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- 6. Before/After -->
+  <div class="section">
+    <h2>🔀 <span>Before/After Slider</span></h2>
+    <p class="desc">Drag the divider to reveal differences. Two complete charts on the same canvas, clipped at the split point.</p>
+    <div class="chart-container" id="chart-beforeafter" style="min-height:420px;"></div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- 7. Word Diff -->
+  <div class="section">
+    <h2>📝 <span>Word Diff Chart</span></h2>
+    <p class="desc">Visualize how language changed over versions. Column view shows word flow with connectors. Cloud view shows the delta at a glance.</p>
+    <div class="chart-container" id="chart-worddiff" style="min-height:450px;"></div>
+  </div>
+
+  <div class="install-bar">
+    <p style="margin-bottom:12px;color:#94a3b8;">Ready to build something?</p>
+    <code>npm install makeshift.js</code>
+  </div>
+
+  <script type="module">
+    import { decisionTree, gantt, waterfall, orgChart, heatmap, beforeAfter, wordDiff } from '../dist/makeshift.esm.js';
+
+    // ── 1. Decision Tree ──
+    const treeData = [];
+    for (let i = 0; i < 200; i++) {
+      const age = 20 + Math.floor(Math.random() * 50);
+      const income = 20000 + Math.floor(Math.random() * 80000);
+      const score = Math.floor(Math.random() * 100);
+      const outcome = (age > 40 && income > 50000) ? 'Premium' :
+                      (score > 60) ? 'Standard' : 'Basic';
+      treeData.push({ age, income, score, plan: outcome });
+    }
+    decisionTree('#chart-tree', treeData, {
+      target: 'plan',
+      features: ['age', 'income', 'score'],
+      maxDepth: 3,
+      width: 1060,
+      height: 380,
+    });
+
+    // ── 2. Gantt Chart ──
+    gantt('#chart-gantt', [
+      { id: 't1', name: 'Research & Discovery', start: '2026-03-01', end: '2026-03-14', resource: 'Alice', progress: 100 },
+      { id: 't2', name: 'UX Design', start: '2026-03-10', end: '2026-03-25', resource: 'Bob', dependencies: ['t1'], progress: 75 },
+      { id: 't3', name: 'Backend API', start: '2026-03-15', end: '2026-04-10', resource: 'Charlie', dependencies: ['t1'], progress: 40 },
+      { id: 't4', name: 'Frontend Build', start: '2026-03-26', end: '2026-04-15', resource: 'Bob', dependencies: ['t2'], progress: 20 },
+      { id: 't5', name: 'Integration', start: '2026-04-11', end: '2026-04-20', resource: 'Alice', dependencies: ['t3', 't4'], progress: 0 },
+      { id: 't6', name: 'QA Testing', start: '2026-04-16', end: '2026-04-25', resource: 'Charlie', dependencies: ['t4'], progress: 0 },
+      { id: 't7', name: 'Launch', start: '2026-04-26', end: '2026-04-26', resource: 'Alice', milestone: true, dependencies: ['t5', 't6'] },
+    ], { width: 1060, height: 480, viewMode: 'week' });
+
+    // ── 3. Waterfall ──
+    waterfall('#chart-waterfall', [
+      { label: 'Opening Balance', amount: 125000, isTotal: true },
+      { label: 'Product Sales', amount: 84000, category: 'revenue', transactions: [
+        { description: 'Enterprise license', amount: 45000 },
+        { description: 'Pro subscriptions', amount: 28000 },
+        { description: 'Add-on sales', amount: 11000 },
+      ]},
+      { label: 'Services', amount: 32000, category: 'revenue', transactions: [
+        { description: 'Consulting Q1', amount: 20000 },
+        { description: 'Training workshops', amount: 12000 },
+      ]},
+      { label: 'Salaries', amount: -68000, category: 'salary' },
+      { label: 'Office Rent', amount: -12000, category: 'rent' },
+      { label: 'Cloud Infra', amount: -8500, category: 'tech' },
+      { label: 'Marketing', amount: -15000, category: 'marketing' },
+      { label: 'Insurance', amount: -4200, category: 'ops' },
+      { label: 'Closing Balance', amount: 0, isTotal: true },
+    ], {
+      width: 1060, height: 400,
+      categoryColors: { revenue: '#22c55e', salary: '#3b82f6', rent: '#ef4444', tech: '#8b5cf6', marketing: '#f97316', ops: '#64748b' },
+    });
+
+    // ── 4. Org Chart ──
+    orgChart('#chart-org', [
+      { id: 'ceo', name: 'Sarah Chen', title: 'CEO', metrics: { messages: 89, commits: 2 } },
+      { id: 'cto', name: 'Alex Rivera', title: 'CTO', manager: 'ceo', metrics: { messages: 342, commits: 45 } },
+      { id: 'cmo', name: 'Jordan Park', title: 'CMO', manager: 'ceo', metrics: { messages: 156, commits: 0 } },
+      { id: 'cfo', name: 'Lisa Wang', title: 'CFO', manager: 'ceo', metrics: { messages: 67, commits: 0 } },
+      { id: 'eng1', name: 'Dev Kumar', title: 'Sr. Engineer', manager: 'cto', metrics: { messages: 210, commits: 89 } },
+      { id: 'eng2', name: 'Maya Lin', title: 'Engineer', manager: 'cto', metrics: { messages: 187, commits: 72 } },
+      { id: 'eng3', name: 'Tom Novak', title: 'Engineer', manager: 'cto', metrics: { messages: 92, commits: 34 } },
+      { id: 'mkt1', name: 'Priya Shah', title: 'Marketing Lead', manager: 'cmo', metrics: { messages: 234, commits: 5 } },
+      { id: 'mkt2', name: 'Chris Lee', title: 'Content Writer', manager: 'cmo', metrics: { messages: 145, commits: 12 } },
+      { id: 'fin1', name: 'Anna Kowalski', title: 'Accountant', manager: 'cfo', metrics: { messages: 45, commits: 0 } },
+    ], {
+      width: 1060, height: 480,
+      mode: 'hierarchy',
+      sizeMetric: 'messages',
+      influenceEdges: [
+        { source: 'eng1', target: 'mkt1', weight: 8 },
+        { source: 'eng2', target: 'eng1', weight: 12 },
+        { source: 'mkt1', target: 'ceo', weight: 6 },
+        { source: 'eng1', target: 'cto', weight: 15 },
+        { source: 'mkt2', target: 'eng2', weight: 4 },
+        { source: 'cfo', target: 'cmo', weight: 3 },
+      ],
+    });
+
+    // ── 5. Heatmap ──
+    const heatmapData = [];
+    const today = new Date();
+    for (let i = 0; i < 365; i++) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const dayOfWeek = d.getDay();
+      const isWeekday = dayOfWeek > 0 && dayOfWeek < 6;
+      const base = isWeekday ? 3 : 1;
+      const value = Math.random() > 0.15 ? Math.floor(Math.random() * 8 + base) : 0;
+      heatmapData.push({ date: d, value });
+    }
+    heatmap('#chart-heatmap', heatmapData, { width: 1060, height: 200, goal: 7, cellSize: 13 });
+
+    // ── 6. Before/After ──
+    beforeAfter('#chart-beforeafter', {
+      before: {
+        type: 'bar',
+        data: [
+          { label: 'Users', value: 12400 },
+          { label: 'Revenue', value: 84000 },
+          { label: 'Retention', value: 62 },
+          { label: 'NPS', value: 34 },
+          { label: 'Tickets', value: 890 },
+        ],
+      },
+      after: {
+        type: 'bar',
+        data: [
+          { label: 'Users', value: 28900 },
+          { label: 'Revenue', value: 156000 },
+          { label: 'Retention', value: 78 },
+          { label: 'NPS', value: 67 },
+          { label: 'Tickets', value: 340 },
+        ],
+      },
+    }, { width: 1060, height: 400, beforeLabel: 'Before Redesign', afterLabel: 'After Redesign' });
+
+    // ── 7. Word Diff ──
+    wordDiff('#chart-worddiff', [
+      {
+        label: 'Version 1 (2024)',
+        text: 'We build fast reliable enterprise software for large corporations and government agencies worldwide with a focus on security compliance and data protection',
+      },
+      {
+        label: 'Version 2 (2025)',
+        text: 'We build beautiful intuitive software for everyone everywhere with a focus on simplicity speed and delightful user experiences that people love',
+      },
+      {
+        label: 'Version 3 (2026)',
+        text: 'We craft beautiful intelligent tools for creators and teams everywhere with a focus on AI-powered simplicity speed and experiences that spark joy',
+      },
+    ], { width: 1060, height: 430, mode: 'column' });
+  </script>
+</body>
+</html>
