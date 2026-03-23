@@ -97,7 +97,6 @@ export function heatmap(
     // Weekly summary
     const weeklySums: number[] = [];
 
-    // Render cells
     for (let week = 0; week < totalWeeks; week++) {
       let weekSum = 0;
       for (let day = 0; day < 7; day++) {
