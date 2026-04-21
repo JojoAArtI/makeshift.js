@@ -43,6 +43,18 @@ export function wordDiff(
     const svg = createSVG(w, h);
     svg.style.background = theme.bg;
 
+    // Add gradient definitions
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    const addedGradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+    addedGradient.setAttribute('id', 'addedGradient');
+    addedGradient.setAttribute('x1', '0%');
+    addedGradient.setAttribute('y1', '0%');
+    addedGradient.setAttribute('x2', '100%');
+    addedGradient.setAttribute('y2', '100%');
+    addedGradient.innerHTML = `<stop offset="0%" style="stop-color:${withOpacity(opts.addedColor, 0.4)};stop-opacity:1" /><stop offset="100%" style="stop-color:${withOpacity(opts.addedColor, 0.2)};stop-opacity:1" />`;
+    defs.appendChild(addedGradient);
+    svg.appendChild(defs);
+
     // Column headers
     texts.forEach((v, i) => {
       const x = margin.left + i * colW + colW / 2;
@@ -74,14 +86,15 @@ export function wordDiff(
 
         // Background highlight for added words
         if (isAdded) {
-          svg.appendChild(createRect(x + 8, wordY - 13, colW - 16, lineH - 2, {
-            rx: '4', fill: withOpacity(opts.addedColor, 0.1),
+          svg.appendChild(createRect(x + 8, wordY - 15, colW - 16, lineH, {
+            rx: '6', fill: `url(#addedGradient)`, 'fill-opacity': '0.3',
+            filter: 'drop-shadow(0 2px 6px rgba(34,197,94,0.3))',
           }));
         }
 
         const text = createText(x + 14, wordY, truncate(word, 20), {
-          fill: color, 'font-size': '12',
-          'font-weight': isAdded ? '600' : '400',
+          fill: color, 'font-size': '14', 'font-weight': isAdded ? '700' : '500',
+          filter: isAdded ? 'drop-shadow(0 1px 3px rgba(0,0,0,0.3))' : 'none',
         });
         text.addEventListener('mouseenter', (e) => {
           showTooltip(e.clientX, e.clientY,

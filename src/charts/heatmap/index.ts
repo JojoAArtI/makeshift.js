@@ -75,6 +75,20 @@ export function heatmap(
     svg.style.background = theme.bg;
     const grid = createGroup({ transform: `translate(${labelOffset},${topOffset})` });
 
+    // Add gradient definitions for cells
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    for (let i = 0; i < 5; i++) {
+      const color = opts.colorRange[i] || opts.colorRange[0];
+      const cellGradient = document.createElementNS('http://www.w3.org/2000/svg', 'radialGradient');
+      cellGradient.setAttribute('id', `cellGradient-${i}`);
+      cellGradient.setAttribute('cx', '50%');
+      cellGradient.setAttribute('cy', '30%');
+      cellGradient.setAttribute('r', '70%');
+      cellGradient.innerHTML = `<stop offset="0%" style="stop-color:${lighten(color, 0.2)};stop-opacity:1" /><stop offset="100%" style="stop-color:${color};stop-opacity:1" />`;
+      defs.appendChild(cellGradient);
+    }
+    svg.appendChild(defs);
+
     // Streak badge
     if (opts.showStreak) {
       const streakG = createGroup({ transform: `translate(${labelOffset}, 4)` });
@@ -112,7 +126,10 @@ export function heatmap(
         const y = day * (cs + cg);
         const color = val === 0 ? (opts.theme === 'dark' ? opts.emptyColor : '#ebedf0') : getColor(val);
 
-        const rect = createRect(x, y, cs, cs, { rx: '3', fill: color });
+        const rect = createRect(x, y, cs, cs, {
+          rx: '4', fill: val === 0 ? color : `url(#cellGradient-${Math.floor(val / maxVal * 4)})`,
+          filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.2))',
+        });
         rect.classList.add('makeshift-cell');
 
         rect.addEventListener('mouseenter', (ev) => {

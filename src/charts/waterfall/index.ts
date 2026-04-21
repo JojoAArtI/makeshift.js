@@ -57,6 +57,25 @@ export function waterfall(
     svg.style.background = theme.bg;
     const chart = createGroup({ transform: `translate(${margin.left},${margin.top})` });
 
+    // Add gradient definitions for bars
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    items.forEach((item, i) => {
+      let color: string;
+      if (item.isTotal) { color = opts.totalColor; }
+      else if (item.category && categoryColors[item.category]) { color = categoryColors[item.category]; }
+      else { color = item.amount >= 0 ? opts.positiveColor : opts.negativeColor; }
+
+      const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+      gradient.setAttribute('id', `waterfallGradient-${i}`);
+      gradient.setAttribute('x1', '0%');
+      gradient.setAttribute('y1', '0%');
+      gradient.setAttribute('x2', '100%');
+      gradient.setAttribute('y2', '100%');
+      gradient.innerHTML = `<stop offset="0%" style="stop-color:${withOpacity(color, 0.9)};stop-opacity:1" /><stop offset="100%" style="stop-color:${withOpacity(color, 0.7)};stop-opacity:1" />`;
+      defs.appendChild(gradient);
+    });
+    svg.appendChild(defs);
+
     // Y-axis gridlines
     const ticks = generateTicks(yMin - yPad, yMax + yPad, 6);
     for (const tick of ticks) {

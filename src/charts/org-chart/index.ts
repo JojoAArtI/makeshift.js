@@ -63,6 +63,21 @@ export function orgChart(
     const svg = createSVG(svgW, svgH);
     svg.style.background = theme.bg;
 
+    // Add gradient definitions for nodes
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    for (let depth = 0; depth < 10; depth++) {
+      const color = getCategoryColor(depth);
+      const orgGradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+      orgGradient.setAttribute('id', `orgGradient-${depth}`);
+      orgGradient.setAttribute('x1', '0%');
+      orgGradient.setAttribute('y1', '0%');
+      orgGradient.setAttribute('x2', '100%');
+      orgGradient.setAttribute('y2', '100%');
+      orgGradient.innerHTML = `<stop offset="0%" style="stop-color:${withOpacity(color, 0.1)};stop-opacity:1" /><stop offset="100%" style="stop-color:${withOpacity(color, 0.05)};stop-opacity:1" />`;
+      defs.appendChild(orgGradient);
+    }
+    svg.appendChild(defs);
+
     // Title
     svg.appendChild(createText(svgW / 2, 30, 'Organization Hierarchy', { fill: theme.text, 'font-size': '16', 'font-weight': '600', 'text-anchor': 'middle' }));
 
@@ -89,10 +104,13 @@ export function orgChart(
       const depth = Math.round(n.y / (nodeH + 80));
       const color = getCategoryColor(depth);
 
-      g.appendChild(createRect(0, 0, nodeW, nodeH, { rx: '10', fill: theme.surface, stroke: withOpacity(color, 0.4), 'stroke-width': '1.5' }));
-      g.appendChild(createRect(0, 0, 4, nodeH, { rx: '2', fill: color }));
-      g.appendChild(createText(16, 24, truncate(org.name, 18), { fill: theme.text, 'font-size': '13', 'font-weight': '600' }));
-      g.appendChild(createText(16, 44, truncate(org.title || '', 20), { fill: theme.textMuted, 'font-size': '11' }));
+      g.appendChild(createRect(0, 0, nodeW, nodeH, {
+        rx: '12', fill: `url(#orgGradient-${depth})`, stroke: withOpacity(color, 0.5), 'stroke-width': '2',
+        filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))',
+      }));
+      g.appendChild(createRect(0, 0, 6, nodeH, { rx: '3', fill: color }));
+      g.appendChild(createText(20, 26, truncate(org.name, 18), { fill: theme.text, 'font-size': '14', 'font-weight': '700', 'text-anchor': 'start' }));
+      g.appendChild(createText(20, 46, truncate(org.title || '', 20), { fill: theme.textMuted, 'font-size': '12', 'text-anchor': 'start', 'font-weight': '500' }));
 
       g.addEventListener('mouseenter', (e) => {
         let html = formatTooltipTitle(org.name);

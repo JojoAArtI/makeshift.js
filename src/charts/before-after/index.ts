@@ -56,9 +56,15 @@ export function beforeAfter(
       const barH = chartH - yScale(d.value);
       const y = yScale(d.value);
       const barColor = getCategoryColor(i);
-      g.appendChild(createRect(x, y, bw, barH, { rx: '4', fill: withOpacity(barColor, 0.8) }));
-      g.appendChild(createText(x + bw / 2, chartH + 16, d.label, { fill: theme.textMuted, 'font-size': '11', 'text-anchor': 'middle' }));
-      g.appendChild(createText(x + bw / 2, y - 6, formatNumber(d.value, { compact: true }), { fill: barColor, 'font-size': '11', 'font-weight': '600', 'text-anchor': 'middle' }));
+      g.appendChild(createRect(x, y, bw, barH, {
+        rx: '6', fill: `url(#beforeAfterGradient-${i})`,
+        filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.2))',
+      }));
+      g.appendChild(createText(x + bw / 2, chartH + 18, d.label, { fill: theme.textMuted, 'font-size': '12', 'text-anchor': 'middle', 'font-weight': '500' }));
+      g.appendChild(createText(x + bw / 2, y - 8, formatNumber(d.value, { compact: true }), {
+        fill: barColor, 'font-size': '12', 'font-weight': '700', 'text-anchor': 'middle',
+        filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))',
+      }));
     });
   }
 
@@ -87,6 +93,23 @@ export function beforeAfter(
     wrapper.innerHTML = '';
     const svg = createSVG(w, h);
     svg.style.background = theme.bg;
+
+    // Add gradient definitions for bars
+    const defs = createDefs();
+    if (config.before?.data) {
+      config.before.data.forEach((_, i) => {
+        const color = getCategoryColor(i);
+        const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+        gradient.setAttribute('id', `beforeAfterGradient-${i}`);
+        gradient.setAttribute('x1', '0%');
+        gradient.setAttribute('y1', '0%');
+        gradient.setAttribute('x2', '100%');
+        gradient.setAttribute('y2', '100%');
+        gradient.innerHTML = `<stop offset="0%" style="stop-color:${withOpacity(color, 0.9)};stop-opacity:1" /><stop offset="100%" style="stop-color:${withOpacity(color, 0.7)};stop-opacity:1" />`;
+        defs.appendChild(gradient);
+      });
+    }
+    svg.appendChild(defs);
 
     const defs = createDefs();
     // Before clip
