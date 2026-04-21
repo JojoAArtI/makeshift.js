@@ -86,10 +86,16 @@ export function waterfall(
         const prevEnd = items[i - 1].end!;
         const connY = yScale(prevEnd);
         const prevX = gap + (i - 1) * (barW + gap) + barW;
-        chart.appendChild(createLine(prevX, connY, x, connY, { stroke: theme.border, 'stroke-width': '1', 'stroke-dasharray': '3,2' }));
+        chart.appendChild(createLine(prevX, connY, x, connY, {
+          stroke: theme.border, 'stroke-width': '2', 'stroke-dasharray': '4,3',
+          filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.2))',
+        }));
       }
 
-      const rect = createRect(x, barTop, barW, barH, { rx: '4', fill: color });
+      const rect = createRect(x, barTop, barW, barH, {
+        rx: '6', fill: `url(#waterfallGradient-${i})`, stroke: withOpacity(color, 0.4), 'stroke-width': '1.5',
+        filter: 'drop-shadow(0 3px 10px rgba(0,0,0,0.25))',
+      });
       rect.classList.add('makeshift-bar');
 
       // Value label on bar
