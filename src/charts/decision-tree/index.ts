@@ -56,6 +56,27 @@ export function decisionTree(
     svg.appendChild(linksG);
     svg.appendChild(nodesG);
 
+    // Add gradient definitions
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    const leafGradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+    leafGradient.setAttribute('id', 'leafGradient');
+    leafGradient.setAttribute('x1', '0%');
+    leafGradient.setAttribute('y1', '0%');
+    leafGradient.setAttribute('x2', '100%');
+    leafGradient.setAttribute('y2', '100%');
+    leafGradient.innerHTML = `<stop offset="0%" style="stop-color:${PALETTES.categorical[0]};stop-opacity:1" /><stop offset="100%" style="stop-color:${PALETTES.categorical[1]};stop-opacity:1" />`;
+    defs.appendChild(leafGradient);
+
+    const nodeGradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+    nodeGradient.setAttribute('id', 'nodeGradient');
+    nodeGradient.setAttribute('x1', '0%');
+    nodeGradient.setAttribute('y1', '0%');
+    nodeGradient.setAttribute('x2', '100%');
+    nodeGradient.setAttribute('y2', '100%');
+    nodeGradient.innerHTML = `<stop offset="0%" style="stop-color:${theme.surface.split(',')[1] || '#1e1b4b'};stop-opacity:1" /><stop offset="100%" style="stop-color:${theme.surface.split(',')[2] || '#312e81'};stop-opacity:1" />`;
+    defs.appendChild(nodeGradient);
+    svg.appendChild(defs);
+
     function renderLinks(n: LayoutNode) {
       for (const child of n.children) {
         const x1 = oX + n.x + opts.nodeWidth / 2;
@@ -79,28 +100,29 @@ export function decisionTree(
       g.classList.add('makeshift-node');
 
       const isLeaf = !treeNode.feature;
-      const bgColor = isLeaf ? PALETTES.categorical[0] : theme.surface;
-      const borderColor = isLeaf ? PALETTES.categorical[0] : theme.border;
+      const bgColor = isLeaf ? 'url(#leafGradient)' : 'url(#nodeGradient)';
+      const borderColor = isLeaf ? PALETTES.categorical[1] : theme.border;
 
       const rect = createRect(0, 0, opts.nodeWidth, opts.nodeHeight, {
-        rx: '10', fill: bgColor, stroke: borderColor, 'stroke-width': '1.5',
+        rx: '12', fill: bgColor, stroke: borderColor, 'stroke-width': '2',
+        filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))',
       });
       g.appendChild(rect);
 
       if (isLeaf) {
-        const label = createText(opts.nodeWidth / 2, 28, `${treeNode.value}`, { fill: '#fff', 'font-size': '13', 'font-weight': '600', 'text-anchor': 'middle' });
-        const count = createText(opts.nodeWidth / 2, 50, `n=${treeNode.samples} (${formatPercent(treeNode.percentage)})`, { fill: 'rgba(255,255,255,0.7)', 'font-size': '11', 'text-anchor': 'middle' });
+        const label = createText(opts.nodeWidth / 2, 32, `${treeNode.value}`, { fill: '#ffffff', 'font-size': '15', 'font-weight': '700', 'text-anchor': 'middle' });
+        const count = createText(opts.nodeWidth / 2, 54, `n=${treeNode.samples} (${formatPercent(treeNode.percentage)})`, { fill: 'rgba(255,255,255,0.9)', 'font-size': '12', 'text-anchor': 'middle', 'font-weight': '500' });
         g.appendChild(label);
         g.appendChild(count);
       } else {
-        const cond = createText(opts.nodeWidth / 2, 26, truncate(treeNode.condition || '', 22), { fill: theme.text, 'font-size': '12', 'font-weight': '600', 'text-anchor': 'middle' });
-        const pct = createText(opts.nodeWidth / 2, 46, `${formatPercent(treeNode.percentage)} · n=${treeNode.samples}`, { fill: theme.textMuted, 'font-size': '11', 'text-anchor': 'middle' });
+        const cond = createText(opts.nodeWidth / 2, 28, truncate(treeNode.condition || '', 24), { fill: theme.text, 'font-size': '14', 'font-weight': '600', 'text-anchor': 'middle' });
+        const pct = createText(opts.nodeWidth / 2, 50, `${formatPercent(treeNode.percentage)} · n=${treeNode.samples}`, { fill: theme.textMuted, 'font-size': '12', 'text-anchor': 'middle', 'font-weight': '500' });
         g.appendChild(cond);
         g.appendChild(pct);
 
         // Collapse indicator
         if (treeNode.left || treeNode.right) {
-          const indicator = createText(opts.nodeWidth / 2, 63, treeNode.collapsed ? '▸ expand' : '▾ collapse', { fill: PALETTES.categorical[0], 'font-size': '10', 'text-anchor': 'middle', cursor: 'pointer' });
+          const indicator = createText(opts.nodeWidth / 2, 68, treeNode.collapsed ? '▸ expand' : '▾ collapse', { fill: theme.highlight, 'font-size': '11', 'text-anchor': 'middle', cursor: 'pointer', 'font-weight': '600' });
           indicator.addEventListener('click', (e) => { e.stopPropagation(); treeNode.collapsed = !treeNode.collapsed; render(); });
           g.appendChild(indicator);
         }

@@ -42,10 +42,13 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "typescript": "^5.4.0",
-    "rollup": "^4.12.0",
-    "@rollup/plugin-typescript": "^11.1.6",
     "@rollup/plugin-terser": "^0.4.4",
-    "tslib": "^2.6.0"
+    "@rollup/plugin-typescript": "^11.1.6",
+    "rollup": "^4.12.0",
+    "tslib": "^2.6.0",
+    "typescript": "^5.4.0"
+  },
+  "dependencies": {
+    "makeshift.js": "^0.1.0"
   }
 }

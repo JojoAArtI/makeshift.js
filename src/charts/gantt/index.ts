@@ -53,6 +53,30 @@ export function gantt(
     const svg = createSVG(fullW, chartH);
     svg.style.background = theme.bg;
 
+    // Add gradient definitions for bars
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    for (let i = 0; i < resources.length; i++) {
+      const color = PALETTES.categorical[i % PALETTES.categorical.length];
+      const barGradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+      barGradient.setAttribute('id', `barGradient-${i}`);
+      barGradient.setAttribute('x1', '0%');
+      barGradient.setAttribute('y1', '0%');
+      barGradient.setAttribute('x2', '100%');
+      barGradient.setAttribute('y2', '100%');
+      barGradient.innerHTML = `<stop offset="0%" style="stop-color:${withOpacity(color, 0.8)};stop-opacity:1" /><stop offset="100%" style="stop-color:${withOpacity(color, 0.6)};stop-opacity:1" />`;
+      defs.appendChild(barGradient);
+
+      const progressGradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+      progressGradient.setAttribute('id', `progressGradient-${i}`);
+      progressGradient.setAttribute('x1', '0%');
+      progressGradient.setAttribute('y1', '0%');
+      progressGradient.setAttribute('x2', '100%');
+      progressGradient.setAttribute('y2', '100%');
+      progressGradient.innerHTML = `<stop offset="0%" style="stop-color:${withOpacity(color, 1)};stop-opacity:1" /><stop offset="100%" style="stop-color:${withOpacity(color, 0.8)};stop-opacity:1" />`;
+      defs.appendChild(progressGradient);
+    }
+    svg.appendChild(defs);
+
     const xScale = timeScale([minDate, maxDate], [0, chartW]);
     const ticks = generateDateTicks(minDate, maxDate, opts.viewMode);
 
@@ -125,23 +149,35 @@ export function gantt(
           svg.appendChild(diamond);
         } else {
           const color = task.color || (critSet.has(task.id) && opts.showCriticalPath ? '#ef4444' : PALETTES.categorical[resources.indexOf(resource) % PALETTES.categorical.length]);
-          // Bar background
-          const barBg = createRect(x, barY, w, opts.barHeight, { rx: '6', fill: withOpacity(color, 0.2), stroke: withOpacity(color, 0.4), 'stroke-width': '1' });
+          // Bar background with gradient
+          const barBg = createRect(x, barY, w, opts.barHeight, {
+            rx: '8', fill: `url(#barGradient-${resources.indexOf(resource)})`, stroke: withOpacity(color, 0.6), 'stroke-width': '2',
+            filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.25))',
+          });
           svg.appendChild(barBg);
 
-          // Progress fill
-          const progress = task.progress ?? 0;
+          // Progress fill with gradient
           if (progress > 0) {
-            svg.appendChild(createRect(x, barY, w * (progress / 100), opts.barHeight, { rx: '6', fill: withOpacity(color, 0.5) }));
+            const progressGradient = `url(#progressGradient-${resources.indexOf(resource)})`;
+            svg.appendChild(createRect(x, barY, w * (progress / 100), opts.barHeight, {
+              rx: '8', fill: progressGradient,
+              filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.2))',
+            }));
           }
 
-          // Bar label
-          const barLabel = createText(x + 8, barY + opts.barHeight / 2 + 4, truncate(task.name, Math.floor(w / 7)), { fill: theme.text, 'font-size': '11', 'font-weight': '500' });
+          // Bar label with better typography
+          const barLabel = createText(x + 10, barY + opts.barHeight / 2 + 5, truncate(task.name, Math.floor(w / 8)), {
+            fill: '#ffffff', 'font-size': '12', 'font-weight': '600', 'text-anchor': 'start',
+            filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))',
+          });
           svg.appendChild(barLabel);
 
-          // Resource conflict warning
+          // Resource conflict warning with better styling
           if (opts.showResourceWarnings && conflictTasks.has(task.id)) {
-            svg.appendChild(createText(x + w + 6, barY + opts.barHeight / 2 + 4, '⚠', { fill: '#f97316', 'font-size': '14' }));
+            svg.appendChild(createText(x + w + 8, barY + opts.barHeight / 2 + 5, '⚠', {
+              fill: '#fbbf24', 'font-size': '16', 'font-weight': '700',
+              filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.3))',
+            }));
           }
 
           // Tooltip
