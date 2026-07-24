@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>makeshift.js — 7 Novel Charts</title>
+  <title>makeshift.js — Package Demo</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', -apple-system, sans-serif;
-      background: #0a0a1a;
+      background: #0f0f23;
       color: #e2e8f0;
       line-height: 1.6;
     }
@@ -128,8 +128,8 @@
 
   <div class="hero">
     <h1>makeshift.js</h1>
-    <p>7 novel, interactive chart types that don't exist anywhere else. Zero dependencies. Pure SVG. Works everywhere.</p>
-    <div class="badge">v0.1.0 · MIT License · 0 dependencies</div>
+    <p>Package Demo - Using the installed npm package</p>
+    <div class="badge">v0.1.0 · Package Demo</div>
   </div>
 
   <!-- 1. Decision Tree -->
@@ -188,12 +188,12 @@
   </div>
 
   <div class="install-bar">
-    <p style="margin-bottom:12px;color:#94a3b8;">Ready to build something?</p>
+    <p style="margin-bottom:12px;color:#94a3b8;">Using the npm package</p>
     <code>npm install makeshift.js</code>
   </div>
 
   <script type="module">
-    import { decisionTree, gantt, waterfall, orgChart, heatmap, beforeAfter, wordDiff } from '../dist/makeshift.esm.js';
+    import { decisionTree, gantt, waterfall, orgChart, heatmap, beforeAfter, wordDiff } from './makeshift.esm.js';
 
     // ── 1. Decision Tree ──
     const treeData = [];

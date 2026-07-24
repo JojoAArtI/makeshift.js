@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>makeshift.js — Clean Import Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0f0f23;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+    .hero {
+      text-align: center;
+      padding: 80px 20px 60px;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #312e81 50%, #1a1a2e 75%, #0f0f23 100%);
+      border-bottom: 1px solid rgba(99,102,241,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 30% 20%, rgba(99,102,241,0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 80%, rgba(139,92,246,0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #818cf8, #c084fc, #f472b6, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      animation: heroGlow 3s ease-in-out infinite alternate;
+    }
+    @keyframes heroGlow {
+      from { filter: brightness(1) drop-shadow(0 0 20px rgba(129, 140, 248, 0.3)); }
+      to { filter: brightness(1.1) drop-shadow(0 0 30px rgba(129, 140, 248, 0.5)); }
+    }
+    .hero p {
+      font-size: 18px;
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .hero .badge {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 6px 16px;
+      background: rgba(99,102,241,0.15);
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 20px;
+      font-size: 13px;
+      color: #a5b4fc;
+    }
+    .import-code {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 16px;
+      color: #a5b4fc;
+      background: rgba(99,102,241,0.1);
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(99,102,241,0.2);
+    }
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+    .section h2 {
+      font-size: 30px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #e2e8f0;
+    }
+    .section h2 span {
+      background: linear-gradient(135deg, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .section .desc {
+      color: #94a3b8;
+      margin-bottom: 24px;
+      font-size: 15px;
+    }
+    .chart-container {
+      width: 100%;
+      min-height: 450px;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #0f0f23 100%);
+      border-radius: 16px;
+      border: 1px solid rgba(99,102,241,0.2);
+      overflow: hidden;
+      margin-bottom: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      backdrop-filter: blur(16px);
+    }
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent);
+      margin: 20px 0;
+    }
+    .install-bar {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(139,92,246,0.05));
+      border-top: 1px solid rgba(99,102,241,0.15);
+      position: relative;
+    }
+    .install-bar code {
+      font-size: 16px;
+      padding: 12px 24px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.12));
+      border: 1px solid rgba(99,102,241,0.3);
+      box-shadow: 0 4px 16px rgba(99,102,241,0.2);
+      backdrop-filter: blur(8px);
+      color: #e0e7ff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1>makeshift.js</h1>
+    <p>Clean Import Demo - Just like in your project!</p>
+    <div class="badge">v0.1.0 · Clean Imports</div>
+    <div class="import-code">
+      <code>import { decisionTree, gantt, waterfall, orgChart, heatmap, beforeAfter, wordDiff } from 'makeshift.js';</code>
+    </div>
+  </div>
+
+  <!-- 1. Decision Tree -->
+  <div class="section">
+    <h2>🌳 <span>Decision Tree Builder</span></h2>
+    <p class="desc">Build actual decision trees from data — not drawings. Automatic CART splitting, hover to see records, collapse subtrees.</p>
+    <div class="chart-container" id="chart-tree" style="min-height:400px;"></div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- 2. Gantt Chart -->
+  <div class="section">
+    <h2>📊 <span>Gantt Chart</span></h2>
+    <p class="desc">Dependency arrows that route around tasks. Critical path highlighting. Resource overload warnings. Milestone diamonds. Swimlanes.</p>
+    <div class="chart-container" id="chart-gantt" style="min-height:500px;"></div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- 3. Cash Flow Waterfall -->
+  <div class="section">
+    <h2>💰 <span>Cash Flow Waterfall</span></h2>
+    <p class="desc">See where your money actually went. Click any block to see individual transactions. Running total line included.</p>
+    <div class="chart-container" id="chart-waterfall" style="min-height:420px;"></div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- 4. Org Chart -->
+  <div class="section">
+    <h2>🏢 <span>Org Chart / Influence Map</span></h2>
+    <p class="desc">Toggle between formal hierarchy and actual influence network. Node size = communication volume. Edge thickness = collaboration frequency.</p>
+    <div class="chart-container" id="chart-org" style="min-height:500px;"></div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- 5. Heatmap -->
+  <div class="section">
+    <h2>🔥 <span>Habit Heatmap</span></h2>
+    <p class="desc">The GitHub contribution graph, but for anything. Streak counter. Goal scaling. Beautiful color gradients.</p>
+    <div class="chart-container" id="chart-heatmap" style="min-height:220px;"></div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- 6. Before/After -->
+  <div class="section">
+    <h2>🔀 <span>Before/After Slider</span></h2>
+    <p class="desc">Drag the divider to reveal differences. Two complete charts on the same canvas, clipped at the split point.</p>
+    <div class="chart-container" id="chart-beforeafter" style="min-height:420px;"></div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- 7. Word Diff -->
+  <div class="section">
+    <h2>📝 <span>Word Diff Chart</span></h2>
+    <p class="desc">Visualize how language changed over versions. Column view shows word flow with connectors. Cloud view shows the delta at a glance.</p>
+    <div class="chart-container" id="chart-worddiff" style="min-height:450px;"></div>
+  </div>
+
+  <div class="install-bar">
+    <p style="margin-bottom:12px;color:#94a3b8;">Ready to use in your project</p>
+    <code>npm install makeshift.js</code>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

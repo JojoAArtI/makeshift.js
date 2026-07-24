@@ -149,6 +149,8 @@ export function gantt(
           svg.appendChild(diamond);
         } else {
           const color = task.color || (critSet.has(task.id) && opts.showCriticalPath ? '#ef4444' : PALETTES.categorical[resources.indexOf(resource) % PALETTES.categorical.length]);
+          const progress = task.progress ?? 0;
+
           // Bar background with gradient
           const barBg = createRect(x, barY, w, opts.barHeight, {
             rx: '8', fill: `url(#barGradient-${resources.indexOf(resource)})`, stroke: withOpacity(color, 0.6), 'stroke-width': '2',
@@ -220,9 +222,9 @@ export function gantt(
       }
     }
     // Arrowhead marker
-    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-    defs.innerHTML = `<marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="${theme.textMuted}" opacity="0.5"/></marker>`;
-    svg.appendChild(defs);
+    const arrowDefs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    arrowDefs.innerHTML = `<marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="${theme.textMuted}" opacity="0.5"/></marker>`;
+    svg.appendChild(arrowDefs);
     svg.appendChild(arrowsG);
 
     wrapper.appendChild(svg);

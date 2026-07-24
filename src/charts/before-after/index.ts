@@ -111,18 +111,18 @@ export function beforeAfter(
     }
     svg.appendChild(defs);
 
-    const defs = createDefs();
+    const clipDefs = createDefs();
     // Before clip
     const clipBefore = createClipPath(clipIdBefore);
     const clipRectBefore = createRect(0, 0, dividerX, h);
     clipBefore.appendChild(clipRectBefore);
-    defs.appendChild(clipBefore);
+    clipDefs.appendChild(clipBefore);
     // After clip
     const clipAfter = createClipPath(clipIdAfter);
     const clipRectAfter = createRect(dividerX, 0, w - dividerX, h);
     clipAfter.appendChild(clipRectAfter);
-    defs.appendChild(clipAfter);
-    svg.appendChild(defs);
+    clipDefs.appendChild(clipAfter);
+    svg.appendChild(clipDefs);
 
     // Before side
     const beforeG = createGroup({ 'clip-path': `url(#${clipIdBefore})`, transform: `translate(${margin.left},${margin.top})` });

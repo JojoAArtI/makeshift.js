@@ -1,0 +1,16 @@
+{
+  "name": "makeshift-vite-demo",
+  "version": "1.0.0",
+  "description": "Clean import demo for makeshift.js using Vite",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "makeshift.js": "file:../"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

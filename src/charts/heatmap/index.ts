@@ -2,7 +2,7 @@ import type { HeatmapEntry, HeatmapOptions } from '../../core/types';
 import { createSVG, createGroup, createRect, createText, createContainer, getContainerSize } from '../../core/svg';
 import { colorScale } from '../../core/scales';
 import { showTooltip, hideTooltip, formatTooltipTitle, formatTooltipRow } from '../../core/tooltip';
-import { getThemeColors, PALETTES, withOpacity } from '../../core/colors';
+import { getThemeColors, PALETTES, withOpacity, lighten } from '../../core/colors';
 import { toDate, startOfWeek, formatDate, generateId } from '../../core/utils';
 import { injectStyles } from '../../styles';
 

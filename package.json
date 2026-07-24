@@ -46,7 +46,8 @@
     "@rollup/plugin-typescript": "^11.1.6",
     "rollup": "^4.12.0",
     "tslib": "^2.6.0",
-    "typescript": "^5.4.0"
+    "typescript": "^5.4.0",
+    "vite": "^8.0.9"
   },
   "dependencies": {
     "makeshift.js": "^0.1.0"
